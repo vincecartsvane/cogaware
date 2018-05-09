@@ -31,6 +31,9 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    # The point of this is so that database migrations can be run for this app
+    # when running 'python manage.py migrate' for the project
+    'distortions.apps.DistortionsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
