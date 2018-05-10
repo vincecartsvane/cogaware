@@ -21,6 +21,9 @@ class DistortionType(models.Model):
     # table in the database (the distortions_distortiontype table by default)
     name = models.CharField(max_length=200)
 
+    def __str__(self):
+        return self.name
+
 
 class CaughtDistortion(models.Model):
     # This means that when you catch yourself practising distorted thinking,
@@ -29,3 +32,6 @@ class CaughtDistortion(models.Model):
     # This will be used to create a field in the database
     # for storing a date and a time
     caught_at = models.DateTimeField('caught myself at')
+
+    def __str__(self):
+        return "%s at %s" % (self.distortion_type.name, self.caught_at)
