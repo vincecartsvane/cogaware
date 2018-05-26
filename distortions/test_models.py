@@ -34,3 +34,19 @@ class TestDistortionType(TestCase):
         # act/assert
         with self.assertRaises(Exception):
             DTFactory(name='test_distortion').save()
+
+    def test_blank_description_field_is_allowed(self):
+        # arrange
+        DTFactory(name='test_distortion').save()
+
+        # act/assert
+        self.assertEqual(DistortionType.objects.get(id=1).description, None)
+
+    def test_non_blank_description_field(self):
+        # arrange
+        DTFactory(name='test_distortion', description='This is not an actual cognitive distortion').save()
+
+        # act/assert
+        self.assertEqual(
+            DistortionType.objects.get(id=1).description,
+            'This is not an actual cognitive distortion')
