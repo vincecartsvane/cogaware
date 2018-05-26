@@ -19,7 +19,7 @@ created by makemigrations, e.g. '0001' from 0001_initial.py
 class DistortionType(models.Model):
     # This will be converted into SQL that adds a text field to the
     # table in the database (the distortions_distortiontype table by default)
-    name = models.CharField(max_length=200)
+    name = models.CharField(max_length=200, unique=True)
 
     def __str__(self):
         return self.name
