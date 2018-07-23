@@ -2,7 +2,7 @@ Django==2.0.5
 django-core==1.4.1
 factory-boy==2.11.1
 Faker==0.8.15
-pkg-resources==0.0.0
+mysqlclient
 python-dateutil==2.7.3
 pytz==2018.4
 six==1.11.0
