@@ -6,26 +6,29 @@ from .models import DistortionType
 
 class TestDistortionType(TestCase):
     def test_creates_one_distortion_type(self):
-        # arrange
+        # arrange/act
         DTFactory(name='test_distortion').save()
 
-        # act/assert
+        # assert
         self.assertEqual(len(DistortionType.objects.all()), 1)
 
     def test_distortion_type_has_correct_name(self):
-        # arrange
+        # arrange/act
         DTFactory(name='test_distortion').save()
 
-        # act/assert
-        self.assertEqual(DistortionType.objects.get(id=1).name, 'test_distortion')
+        # assert
+        self.assertEqual(DistortionType.objects.first().name, 'test_distortion')
+
     def test_two_distortion_types_have_correct_names(self):
-        # arrange
+        # arrange/act
         DTFactory(name='test_distortion').save()
         DTFactory(name='other_test_distortion').save()
 
-        # act/assert
-        self.assertEqual(DistortionType.objects.get(id=1).name, 'test_distortion')
-        self.assertEqual(DistortionType.objects.get(id=2).name, 'other_test_distortion')
+        # assert
+        names = [o.name for o in DistortionType.objects.all()]
+        self.assertEqual(len(names), 2)
+        self.assertIn('test_distortion', names)
+        self.assertIn('other_test_distortion', names)
 
     def test_adding_duplicate_name_raises_exception(self):
         # arrange
@@ -36,17 +39,17 @@ class TestDistortionType(TestCase):
             DTFactory(name='test_distortion').save()
 
     def test_blank_description_field_is_allowed(self):
-        # arrange
+        # arrange/act
         DTFactory(name='test_distortion').save()
 
-        # act/assert
-        self.assertEqual(DistortionType.objects.get(id=1).description, None)
+        # assert
+        self.assertEqual(DistortionType.objects.first().description, None)
 
     def test_non_blank_description_field(self):
-        # arrange
+        # arrange/act
         DTFactory(name='test_distortion', description='This is not an actual cognitive distortion').save()
 
-        # act/assert
+        # assert
         self.assertEqual(
-            DistortionType.objects.get(id=1).description,
+            DistortionType.objects.first().description,
             'This is not an actual cognitive distortion')
