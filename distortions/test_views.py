@@ -11,3 +11,10 @@ class TestIndex(TestCase):
 
         # assert
         self.assertContains(response, "Add your cognitive distortions here")
+
+    def test_contains_add_distortion_button(self):
+        # act
+        response = self.client.get(reverse('index'))
+
+        # assert
+        self.assertContains(response, '<button type="submit" class="btn btn-primary">Add distortion</button>', html=True)
