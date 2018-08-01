@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     # The point of this is so that database migrations can be run for this app
     # when running 'python manage.py migrate' for the project
+    'bootstrap3',
     'distortions.apps.DistortionsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -57,7 +58,7 @@ ROOT_URLCONF = 'cogaware.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['../distortions/templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
