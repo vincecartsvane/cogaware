@@ -8,6 +8,12 @@
 {# Display django.contrib.messages as Bootstrap alerts #}
 {% bootstrap_messages %}
 
+<ul>
+  {% for trap in traps %}
+  <li>{{ trap.name }}</li>
+  {% endfor %}
+</ul>
+
 <p>Add your mind traps here</p>
 
 {# Display a form #}
