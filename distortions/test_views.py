@@ -12,7 +12,7 @@ class TestIndex(TestCase):
         # assert
         self.assertContains(response, "Add your mind traps here")
 
-    def test_contains_add_distortion_button(self):
+    def test_contains_add_trap_button(self):
         # act
         response = self.client.get(reverse('index'))
 
