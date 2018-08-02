@@ -8,14 +8,14 @@
 {# Display django.contrib.messages as Bootstrap alerts #}
 {% bootstrap_messages %}
 
-<p>Add your cognitive distortions here</p>
+<p>Add your mind traps here</p>
 
 {# Display a form #}
 <form action="add" method="post" class="form">
   {% csrf_token %}
   {% buttons %}
     <button type="submit" class="btn btn-primary">
-      Add distortion
+      Add mind trap
     </button>
   {% endbuttons %}
 </form>
