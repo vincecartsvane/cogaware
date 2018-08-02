@@ -26,7 +26,7 @@ class TrapType(models.Model):
         return self.name
 
 
-class CaughtDistortion(models.Model):
+class IdentifiedTrap(models.Model):
     # This means that when you catch yourself practising distorted thinking,
     # you log a distortion that actually exists
     distortion_type = models.ForeignKey(TrapType, on_delete=models.CASCADE)
