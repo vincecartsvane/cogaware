@@ -16,7 +16,7 @@ created by makemigrations, e.g. '0001' from 0001_initial.py
 """
 
 
-class DistortionType(models.Model):
+class TrapType(models.Model):
     # This will be converted into SQL that adds a text field to the
     # table in the database (the distortions_distortiontype table by default)
     name = models.CharField(max_length=200, unique=True)
@@ -26,10 +26,10 @@ class DistortionType(models.Model):
         return self.name
 
 
-class CaughtDistortion(models.Model):
+class IdentifiedTrap(models.Model):
     # This means that when you catch yourself practising distorted thinking,
     # you log a distortion that actually exists
-    distortion_type = models.ForeignKey(DistortionType, on_delete=models.CASCADE)
+    distortion_type = models.ForeignKey(TrapType, on_delete=models.CASCADE)
     # This will be used to create a field in the database
     # for storing a date and a time
     caught_at = models.DateTimeField('caught myself at')

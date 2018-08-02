@@ -8,7 +8,21 @@
 {# Display django.contrib.messages as Bootstrap alerts #}
 {% bootstrap_messages %}
 
-<p>Add your mind traps here</p>
+<h1>Welcome to Cogaware!</h1>
+
+<div>
+<hr> </hr>
+</div>
+
+<h2>Identify your current  mindtraps:</h2>
+
+<ul>
+  {% for trap in traps %}
+  <li>{{ trap.name }}</li>
+  {% endfor %}
+</ul>
+
+<h2>Add a new  mind traps here</h2>
 
 {# Display a form #}
 <form action="add" method="post" class="form">
