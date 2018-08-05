@@ -21,9 +21,10 @@
 <h2>Add a new mind trap here:</h2>
 
 {# Display a form #}
-<form action="add" method="post" class="form">
+<form action="/traps" method="post" class="form">
   {% csrf_token %}
   {% buttons %}
+    <input type="text" name="trap_name">
     <button type="submit" class="btn btn-primary">
       Add mind trap
     </button>
