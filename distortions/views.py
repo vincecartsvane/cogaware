@@ -1,5 +1,6 @@
 from django.db import IntegrityError
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import reverse
 from django.template import loader
 
 from .models import TrapType
@@ -13,6 +14,7 @@ def index(request):
             trap_type.save()
         except IntegrityError:
             pass
+        return HttpResponseRedirect(reverse("index"))
     template = loader.get_template("index.html")
     context = {'traps': TrapType.objects.all()}
     return HttpResponse(template.render(context, request))

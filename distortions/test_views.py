@@ -1,6 +1,6 @@
 # To run these, run `python manage.py test distortions.test_views`
 
-from django.db import transaction
+from django.http import HttpResponseRedirect
 from django.test import TestCase, TransactionTestCase
 from django.urls import reverse
 
@@ -75,3 +75,10 @@ class TestAdd(TransactionTestCase):
         # assert
         response = self.client.get(reverse('index'))
         self.assertContains(response, 'Catastrophising', html=True, count=1)
+
+    def test_redirects_to_index(self):
+        # act
+        response = self.client.post(reverse('index'), {'trap_name': 'Catastrophising'})
+
+        # assert
+        self.assertTrue(isinstance(response, HttpResponseRedirect))
