@@ -18,7 +18,7 @@ class TestIndex(TestCase):
         response = self.client.get(reverse('index'))
 
         # assert
-        self.assertContains(response, "Identify your current mind traps:")
+        self.assertContains(response, "Log your mind traps:")
 
     def test_contains_add_trap_button(self):
         # act
