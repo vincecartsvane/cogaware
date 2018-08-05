@@ -1,6 +1,7 @@
 # To run these, run `python manage.py test distortions.test_views`
 
-from django.test import TestCase
+from django.db import transaction
+from django.test import TestCase, TransactionTestCase
 from django.urls import reverse
 
 from .factories.model_factories import TrapTypeFactory as TrapFactory
@@ -57,7 +58,7 @@ class TestIndex(TestCase):
         self.assertContains(response, 'Generalising', html=True)
 
 
-class TestAdd(TestCase):
+class TestAdd(TransactionTestCase):
     def test_newly_added_trap_appears_on_index(self):
         # act
         self.client.post(reverse('index'), {'trap_name': 'Catastrophising'})
@@ -65,3 +66,12 @@ class TestAdd(TestCase):
         # assert
         response = self.client.get(reverse('index'))
         self.assertContains(response, 'Catastrophising', html=True)
+
+    def test_does_not_add_duplicate_mind_trap(self):
+        # act
+        self.client.post(reverse('index'), {'trap_name': 'Catastrophising'})
+        self.client.post(reverse('index'), {'trap_name': 'Catastrophising'})
+
+        # assert
+        response = self.client.get(reverse('index'))
+        self.assertContains(response, 'Catastrophising', html=True, count=1)
