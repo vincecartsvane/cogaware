@@ -3,7 +3,7 @@
 from factory.django import DjangoModelFactory as Factory
 from factory import SubFactory
 
-from distortions.models import IdentifiedTrap, TrapType
+from distortions.models import TrapLog, TrapType
 
 
 class TrapTypeFactory(Factory):
@@ -11,8 +11,8 @@ class TrapTypeFactory(Factory):
         model = TrapType
 
 
-class IdentifiedTrapFactory(Factory):
+class TrapLogFactory(Factory):
     class Meta:
-        model = IdentifiedTrap
+        model = TrapLog
 
-    distortion_type = SubFactory(TrapTypeFactory)
+    trap_type = SubFactory(TrapTypeFactory)

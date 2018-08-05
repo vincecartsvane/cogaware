@@ -26,13 +26,13 @@ class TrapType(models.Model):
         return self.name
 
 
-class IdentifiedTrap(models.Model):
+class TrapLog(models.Model):
     # This means that when you catch yourself practising distorted thinking,
     # you log a distortion that actually exists
-    distortion_type = models.ForeignKey(TrapType, on_delete=models.CASCADE)
+    trap_type = models.ForeignKey(TrapType, on_delete=models.CASCADE)
     # This will be used to create a field in the database
     # for storing a date and a time
-    caught_at = models.DateTimeField('caught myself at')
+    log_time = models.DateTimeField('logged at')
 
     def __str__(self):
-        return "%s at %s" % (self.distortion_type.name, self.caught_at)
+        return "%s at %s" % (self.trap_type.name, self.log_time)
