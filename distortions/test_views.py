@@ -37,7 +37,7 @@ class TestIndex(TestCase):
         # assert
         self.assertContains(response, 'Catastrophising', html=True)
 
-    def test_does_not_contrain_trap_when_not_in_database(self):
+    def test_does_not_contain_trap_when_not_in_database(self):
         # act
         response = self.client.get(reverse('index'))
 
