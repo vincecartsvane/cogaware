@@ -55,3 +55,13 @@ class TestIndex(TestCase):
         # assert
         self.assertContains(response, 'Catastrophising', html=True)
         self.assertContains(response, 'Generalising', html=True)
+
+
+class TestAdd(TestCase):
+    def test_newly_added_trap_appears_on_index(self):
+        # act
+        self.client.post(reverse('index'), {'trap_name': 'Catastrophising'})
+
+        # assert
+        response = self.client.get(reverse('index'))
+        self.assertContains(response, 'Catastrophising', html=True)
