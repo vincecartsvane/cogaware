@@ -6,12 +6,19 @@ from django.urls import reverse
 from .factories.model_factories import TrapTypeFactory as TrapFactory
 
 class TestIndex(TestCase):
-    def test_returns_correct_string(self):
+    def test_contains_string_for_adding_new_mind_traps(self):
         # act
         response = self.client.get(reverse('index'))
 
         # assert
-        self.assertContains(response, "Add your mind traps here")
+        self.assertContains(response, "Add a new mind trap here:")
+
+    def test_contains_string_for_identifying_existing_mind_traps(self):
+        # act
+        response = self.client.get(reverse('index'))
+
+        # assert
+        self.assertContains(response, "Identify your current mind traps:")
 
     def test_contains_add_trap_button(self):
         # act
