@@ -82,3 +82,16 @@ class TestAdd(TransactionTestCase):
 
         # assert
         self.assertTrue(isinstance(response, HttpResponseRedirect))
+
+
+class TestTrap(TestCase):
+    def test_response_contains_trap_name(self):
+        # arrange
+        trap = TrapFactory(name='Generalising')
+        trap.save()
+
+        # act
+        response = self.client.get(reverse('trap', args=[trap.id]))
+
+        # assert
+        self.assertContains(response, 'Generalising', html=True, count=1)

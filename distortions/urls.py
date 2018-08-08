@@ -9,5 +9,6 @@ from . import views
 urlpatterns = [
     # When you have an empty path, i.e. '/',
     # call the index function from views.py
-    path('', views.index, name='index')
+    path('', views.index, name='index'),
+    path('<int:trap_id>', views.trap, name='trap')
 ]

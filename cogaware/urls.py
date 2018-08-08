@@ -20,6 +20,6 @@ urlpatterns = [
     # This means that anything that starts with e.g. 'distortions/blah/etc'
     # will be passed onto the urls.py file in the distortions directory
     # and processed from there as '/blah/etc'
-    path('traps', include('distortions.urls')),
+    path('traps/', include('distortions.urls')),
     path('admin/', admin.site.urls),
 ]
