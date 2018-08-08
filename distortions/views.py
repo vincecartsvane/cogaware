@@ -1,6 +1,6 @@
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render, reverse
+from django.shortcuts import get_object_or_404, render, reverse
 from django.template import loader
 
 from .models import TrapType
@@ -21,5 +21,8 @@ def index(request):
 
 
 def trap(request, trap_id):
-    context = {'trap': TrapType.objects.get(id=trap_id)}
-    return render(request, "trap.html", context)
+    trap = get_object_or_404(TrapType, id=trap_id)
+    if request.method == 'DELETE':
+        trap.delete()
+        return HttpResponseRedirect(reverse("index"))
+    return render(request, "trap.html", {'trap': trap})

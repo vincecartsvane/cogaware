@@ -1,6 +1,6 @@
 # To run these, run `python manage.py test distortions.test_views`
 
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseNotFound, HttpResponseRedirect
 from django.test import TestCase, TransactionTestCase
 from django.urls import reverse
 
@@ -95,3 +95,78 @@ class TestTrap(TestCase):
 
         # assert
         self.assertContains(response, 'Generalising', html=True, count=1)
+
+    def test_nonexistent_id_returns_not_found(self):
+        # arrange
+        trap = TrapFactory(name='Generalising')
+        trap.save()
+
+        # act
+        response = self.client.get(reverse('trap', args=[trap.id + 3]))
+
+        # assert
+        self.assertTrue(isinstance(response, HttpResponseNotFound))
+
+    def test_delete_redirects_back_to_index(self):
+        # arrange
+        trap1 = TrapFactory(name='Catastrophising')
+        trap1.save()
+        trap2 = TrapFactory(name='Generalising')
+        trap2.save()
+
+        # act
+        response = self.client.delete(reverse('trap', args=[trap1.id]))
+
+        # assert
+        self.assertRedirects(response, reverse('index'))
+
+    def test_delete_removes_trap(self):
+        # arrange
+        trap = TrapFactory(name='Generalising')
+        trap.save()
+
+        # act
+        self.client.delete(reverse('trap', args=[trap.id]))
+
+        # assert
+        response = self.client.get(reverse('trap', args=[trap.id]))
+        self.assertTrue(isinstance(response, HttpResponseNotFound))
+
+    def test_delete_does_not_remove_other_traps(self):
+        # arrange
+        trap1 = TrapFactory(name='Catastrophising')
+        trap1.save()
+        trap2 = TrapFactory(name='Generalising')
+        trap2.save()
+
+        # act
+        self.client.delete(reverse('trap', args=[trap1.id]))
+
+        # assert
+        response = self.client.get(reverse('trap', args=[trap2.id]))
+        self.assertContains(response, 'Generalising')
+
+    def test_delete_does_not_remove_other_from_index(self):
+        # arrange
+        trap1 = TrapFactory(name='Catastrophising')
+        trap1.save()
+        trap2 = TrapFactory(name='Generalising')
+        trap2.save()
+
+        # act
+        self.client.delete(reverse('trap', args=[trap1.id]))
+
+        # assert
+        response = self.client.get(reverse('index'))
+        self.assertContains(response, 'Generalising')
+
+    def test_deleting_nonexistent_trap_returns_404(self):
+        # arrange
+        trap = TrapFactory(name='Catastrophising')
+        trap.save()
+
+        # act
+        response = self.client.delete(reverse('trap', args=[trap.id + 3]))
+
+        # assert
+        self.assertTrue(isinstance(response, HttpResponseNotFound))
