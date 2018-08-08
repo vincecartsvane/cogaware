@@ -170,3 +170,65 @@ class TestTrap(TestCase):
 
         # assert
         self.assertTrue(isinstance(response, HttpResponseNotFound))
+
+    def test_shows_trap_description_if_present(self):
+        # arrange
+        trap = TrapFactory(
+            name='Catastrophising',
+            description='Viewing the situation as far worse than it is')
+        trap.save()
+
+        # act
+        response = self.client.get(reverse('trap', args=[trap.id]))
+
+        # assert
+        self.assertContains(response,
+                            'Viewing the situation as far worse than it is')
+
+    def test_does_not_show_description_if_none(self):
+        # arrange
+        trap = TrapFactory(name='Catastrophising')
+        trap.save()
+
+        # act
+        response = self.client.get(reverse('trap', args=[trap.id]))
+
+        # assert
+        self.assertNotContains(response, 'None')
+
+    def test_shows_add_description_button_if_no_description(self):
+        # arrange
+        trap = TrapFactory(name='Catastrophising')
+        trap.save()
+
+        # act
+        response = self.client.get(reverse('trap', args=[trap.id]))
+
+        # assert
+        self.assertContains(response, '<button type="submit" class="btn btn-primary">Add description</button>', html=True)
+
+    def test_shows_edit_description_button_if_description_present(self):
+        # arrange
+        trap = TrapFactory(
+            name='Catastrophising',
+            description='Viewing the situation as far worse than it is')
+        trap.save()
+
+        # act
+        response = self.client.get(reverse('trap', args=[trap.id]))
+
+        # assert
+        self.assertContains(response, '<button type="submit" class="btn btn-primary">Edit description</button>', html=True)
+
+    def test_does_not_show_add_description_button_if_description_present(self):
+        # arrange
+        trap = TrapFactory(
+            name='Catastrophising',
+            description='Viewing the situation as far worse than it is')
+        trap.save()
+
+        # act
+        response = self.client.get(reverse('trap', args=[trap.id]))
+
+        # assert
+        self.assertNotContains(response, '<button type="submit" class="btn btn-primary">Add description</button>', html=True)
