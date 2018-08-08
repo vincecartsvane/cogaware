@@ -25,4 +25,8 @@ def trap(request, trap_id):
     if request.method == 'DELETE':
         trap.delete()
         return HttpResponseRedirect(reverse("index"))
+    if request.method == 'POST':
+        trap.description = request.POST.get('description')
+        trap.save()
+        return HttpResponseRedirect(reverse('trap', args=[trap.id]))
     return render(request, "trap.html", {'trap': trap})

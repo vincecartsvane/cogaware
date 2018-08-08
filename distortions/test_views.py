@@ -220,6 +220,22 @@ class TestTrap(TestCase):
         # assert
         self.assertContains(response, '<button type="submit" class="btn btn-primary">Edit description</button>', html=True)
 
+    def test_description_is_shown_as_editable_input(self):
+        # arrange
+        trap = TrapFactory(
+            name='Catastrophising',
+            description='Catastrophe!')
+        trap.save()
+
+        # act
+        response = self.client.get(reverse('trap', args=[trap.id]))
+
+        # assert
+        self.assertContains(
+            response,
+            '<input type="text" name="description" value="Catastrophe!">',
+            html=True)
+
     def test_does_not_show_add_description_button_if_description_present(self):
         # arrange
         trap = TrapFactory(
@@ -232,3 +248,53 @@ class TestTrap(TestCase):
 
         # assert
         self.assertNotContains(response, '<button type="submit" class="btn btn-primary">Add description</button>', html=True)
+
+    def test_post_adds_description(self):
+        trap = TrapFactory(name='Personalisation')
+        trap.save()
+
+        # act
+        self.client.post(reverse('trap', args=[trap.id]),
+                         {'description': 'Taking everything personally'})
+
+        # assert
+        response = self.client.get(reverse('trap', args=[trap.id]))
+        self.assertContains(response, 'Taking everything personally')
+
+    def test_post_redirects_back_to_trap_page(self):
+        trap = TrapFactory(name='Personalisation')
+        trap.save()
+
+        # act
+        response = self.client.post(
+            reverse('trap', args=[trap.id]),
+            {'description': 'Taking everything personally'})
+
+        # assert
+        self.assertRedirects(response, reverse('trap', args=[trap.id]))
+
+    def test_post_overwrites_description(self):
+        trap = TrapFactory(name='Personalisation', description='blah')
+        trap.save()
+
+        # act
+        self.client.post(reverse('trap', args=[trap.id]),
+                         {'description': 'Taking everything personally'})
+
+        # assert
+        response = self.client.get(reverse('trap', args=[trap.id]))
+        self.assertContains(response, 'Taking everything personally')
+        self.assertNotContains(response, 'blah')
+
+    def test_blank_description_clears_description(self):
+        trap = TrapFactory(name='Personalisation', description='blah')
+        trap.save()
+
+        # act
+        self.client.post(reverse('trap', args=[trap.id]),
+                         {'description': ''})
+
+        # assert
+        response = self.client.get(reverse('trap', args=[trap.id]))
+        self.assertNotContains(response, 'blah')
+        self.assertContains(response, '<button type="submit" class="btn btn-primary">Add description</button>', html=True)
