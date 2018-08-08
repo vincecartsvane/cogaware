@@ -3,11 +3,11 @@
 {% bootstrap_javascript %}
 {% bootstrap_messages %}
 <h1>{{ trap.name }}</h1>
-<form action="/traps/{{ trap.id }}" method="post" class="form">
+<textarea form="desc_form" name="description">{% if trap.description %}{{ trap.description }}{% endif %}
+</textarea>
+<form action="/traps/{{ trap.id }}" method="post" class="form" id="desc_form">
   {% csrf_token %}
   {% buttons %}
-  <input type="text" name="description"
-	 value="{% if trap.description %}{{ trap.description }}{% endif %}">
     <button type="submit" class="btn btn-primary">
       {% if trap.description %}
       Edit description

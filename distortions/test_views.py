@@ -220,7 +220,7 @@ class TestTrap(TestCase):
         # assert
         self.assertContains(response, '<button type="submit" class="btn btn-primary">Edit description</button>', html=True)
 
-    def test_description_is_shown_as_editable_input(self):
+    def test_description_is_shown_as_editable_textarea(self):
         # arrange
         trap = TrapFactory(
             name='Catastrophising',
@@ -233,7 +233,7 @@ class TestTrap(TestCase):
         # assert
         self.assertContains(
             response,
-            '<input type="text" name="description" value="Catastrophe!">',
+            '<textarea name="description" form="desc_form">Catastrophe!</textarea>',
             html=True)
 
     def test_does_not_show_add_description_button_if_description_present(self):
