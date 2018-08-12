@@ -58,6 +58,33 @@ class TestIndex(TestCase):
         self.assertContains(response, 'Generalising', html=True)
 
 
+class TestIndexTrapList(TestCase):
+    def setUp(self):
+        trap = TrapFactory(name='Catastrophising')
+        trap.save()
+        self.trap_id = trap.id
+
+    def test_contains_button_link_to_trap(self):
+        # act
+        response = self.client.get(reverse('index'))
+
+        # assert
+        self.assertContains(
+            response,
+            '<form action="%d"><button type="submit" class="btn btn-primary">Show</button></form>' % (self.trap_id,),
+            html=True)
+
+    def test_contains_button_to_delete_trap(self):
+        # act
+        response = self.client.get(reverse('index'))
+
+        # assert
+        self.assertContains(
+            response,
+            '<form action="%d/delete"><button type="submit" class="btn btn-primary">Delete</button></form>' % (self.trap_id,),
+            html=True)
+
+
 class TestAdd(TransactionTestCase):
     def test_newly_added_trap_appears_on_index(self):
         # act

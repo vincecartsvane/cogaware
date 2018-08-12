@@ -13,9 +13,22 @@
 <h2>Log your mind traps:</h2>
 
 <ul>
+  {% csrf_token %}
+  {% buttons %}
   {% for trap in traps %}
   <li>{{ trap.name }}</li>
+  <form action="{{ trap.id }}">
+    <button type="submit" class="btn btn-primary">
+      Show
+    </button>
+  </form>
+  <form action="{{ trap.id }}/delete">
+  <button type="submit" class="btn btn-primary">
+    Delete
+  </button>
+  </form>
   {% endfor %}
+  {% endbuttons %}
 </ul>
 
 <h2>Add a new mind trap here:</h2>
