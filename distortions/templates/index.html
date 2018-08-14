@@ -20,7 +20,7 @@
 <ul>
   {% buttons %}
   {% for trap in traps %}
-  <li>{{ trap.name }}</li>
+  <li>{{ trap.name }}
   <form action="{{ trap.id }}" name="show">
     {% csrf_token %}
     <button type="submit" class="btn btn-primary">
@@ -33,6 +33,7 @@
       Delete
     </button>
   </form>
+  </li>
   {% endfor %}
   {% endbuttons %}
 </ul>
