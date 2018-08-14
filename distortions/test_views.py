@@ -325,3 +325,17 @@ class TestTrap(TestCase):
         response = self.client.get(reverse('trap', args=[trap.id]))
         self.assertNotContains(response, 'blah')
         self.assertContains(response, '<button type="submit" class="btn btn-primary">Add description</button>', html=True)
+
+    def test_has_link_back_to_index_page(self):
+        trap = TrapFactory(name='Personalisation', description='blah')
+        trap.save()
+
+        # act
+        self.client.get(reverse('trap', args=[trap.id]))
+
+        # assert
+        response = self.client.get(reverse('trap', args=[trap.id]))
+        self.assertContains(
+            response,
+            '<form action="/traps/"><button type="submit" class="btn btn-primary" >Back</button></form>',
+            html=True)
