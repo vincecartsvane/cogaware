@@ -71,7 +71,7 @@ class TestIndexTrapList(TestCase):
         # assert
         self.assertContains(
             response,
-            '<form action="%d"><button type="submit" class="btn btn-primary">Show</button></form>' % (self.trap_id,),
+            '<button type="submit" class="btn btn-primary">Show</button>',
             html=True)
 
     def test_contains_button_to_delete_trap(self):
@@ -81,7 +81,7 @@ class TestIndexTrapList(TestCase):
         # assert
         self.assertContains(
             response,
-            '<form action="%d/delete"><button type="submit" class="btn btn-primary">Delete</button></form>' % (self.trap_id,),
+            '<button type="submit" class="btn btn-primary" onclick="delete_trap(%d)">Delete</button>' % (self.trap_id,),
             html=True)
 
 

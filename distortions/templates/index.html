@@ -1,6 +1,10 @@
 {# Load the tag library #}
 {% load bootstrap3 %}
 
+{% load static %}
+<script src="{% static 'jquery-3.3.1.min.js' %}"></script>
+<script src="{% static 'index.js' %}"></script>
+
 {# Load CSS and JavaScript #}
 {% bootstrap_css %}
 {% bootstrap_javascript %}
@@ -13,19 +17,20 @@
 <h2>Log your mind traps:</h2>
 
 <ul>
-  {% csrf_token %}
   {% buttons %}
   {% for trap in traps %}
   <li>{{ trap.name }}</li>
-  <form action="{{ trap.id }}">
+  <form action="{{ trap.id }}" name="show">
+    {% csrf_token %}
     <button type="submit" class="btn btn-primary">
       Show
     </button>
   </form>
-  <form action="{{ trap.id }}/delete">
-  <button type="submit" class="btn btn-primary">
-    Delete
-  </button>
+  <form action="{{ trap.id }}" name="delete">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-primary" onclick="delete_trap({{ trap.id }})">
+      Delete
+    </button>
   </form>
   {% endfor %}
   {% endbuttons %}
