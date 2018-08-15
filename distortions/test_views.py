@@ -36,7 +36,7 @@ class TestIndex(TestCase):
         response = self.client.get(reverse('index'))
 
         # assert
-        self.assertContains(response, 'Catastrophising', html=True)
+        self.assertContains(response, 'Catastrophising')
 
     def test_does_not_contain_trap_when_not_in_database(self):
         # act
@@ -54,8 +54,8 @@ class TestIndex(TestCase):
         response = self.client.get(reverse('index'))
 
         # assert
-        self.assertContains(response, 'Catastrophising', html=True)
-        self.assertContains(response, 'Generalising', html=True)
+        self.assertContains(response, 'Catastrophising')
+        self.assertContains(response, 'Generalising')
 
 
 class TestIndexTrapList(TestCase):
@@ -92,7 +92,7 @@ class TestAdd(TransactionTestCase):
 
         # assert
         response = self.client.get(reverse('index'))
-        self.assertContains(response, 'Catastrophising', html=True)
+        self.assertContains(response, 'Catastrophising')
 
     def test_does_not_add_duplicate_mind_trap(self):
         # act
@@ -101,7 +101,7 @@ class TestAdd(TransactionTestCase):
 
         # assert
         response = self.client.get(reverse('index'))
-        self.assertContains(response, 'Catastrophising', html=True, count=1)
+        self.assertContains(response, 'Catastrophising', count=1)
 
     def test_redirects_to_index(self):
         # act
