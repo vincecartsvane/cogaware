@@ -1,7 +1,10 @@
 from django.test import TestCase
 
-from .factories.model_factories import TrapTypeFactory as TrapFactory
-from .models import TrapType
+from datetime import datetime
+
+from .factories.model_factories import TrapTypeFactory as TrapFactory, \
+    TrapLogFactory as LogFactory
+from .models import TrapType, TrapLog
 
 
 class TestTrapType(TestCase):
@@ -53,3 +56,34 @@ class TestTrapType(TestCase):
         self.assertEqual(
             TrapType.objects.first().description,
             'This is not an actual mind trap')
+
+
+class TestTrapLog(TestCase):
+    def test_creates_one_trap_log(self):
+        # arrange/act
+        trap = TrapFactory(name='test_trap')
+        trap.save()
+        LogFactory(trap_type=trap, log_time=datetime.now()).save()
+
+        # assert
+        self.assertEqual(len(TrapLog.objects.all()), 1)
+
+    def test_correct_timestamp_on_trap_log(self):
+        # arrange/act
+        trap = TrapFactory(name='test_trap')
+        trap.save()
+        dt = datetime(2018, 9, 7, 10, 21, 5)
+        LogFactory(trap_type=trap, log_time=dt).save()
+
+        # assert
+        log_time = TrapLog.objects.first().log_time.replace(tzinfo=None)
+        self.assertEqual(log_time, dt)
+
+    def test_correct_trap_type_on_trap_log(self):
+        # arrange/act
+        trap = TrapFactory(name='test_trap')
+        trap.save()
+        LogFactory(trap_type=trap, log_time=datetime.now()).save()
+
+        # assert
+        self.assertEqual(TrapLog.objects.first().trap_type.name, 'test_trap')
