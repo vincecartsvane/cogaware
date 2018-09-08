@@ -33,6 +33,7 @@ class TrapLog(models.Model):
     # This will be used to create a field in the database
     # for storing a date and a time
     log_time = models.DateTimeField('logged at')
+    detail = models.TextField(null=True)
 
     def __str__(self):
         return "%s at %s" % (self.trap_type.name, self.log_time)

@@ -87,3 +87,22 @@ class TestTrapLog(TestCase):
 
         # assert
         self.assertEqual(TrapLog.objects.first().trap_type.name, 'test_trap')
+
+    def test_allows_empty_detail(self):
+        # arrange/act
+        trap = TrapFactory(name='test_trap')
+        trap.save()
+        LogFactory(trap_type=trap, log_time=datetime.now()).save()
+
+        # assert
+        self.assertIsNone(TrapLog.objects.first().detail)
+
+    def test_non_empty_detail(self):
+        # arrange/act
+        trap = TrapFactory(name='test_trap')
+        trap.save()
+        LogFactory(trap_type=trap, log_time=datetime.now(),
+                   detail='Testing trap log').save()
+
+        # assert
+        self.assertEquals(TrapLog.objects.first().detail, 'Testing trap log')
